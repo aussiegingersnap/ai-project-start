@@ -1,0 +1,44 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Frontend Development Rules
+
+> *"Because without rules, our UI would look like it was designed by a committee of cats walking on keyboards."*
+
+### Component Guidelines
+
+- Use functional components with hooks, not class components
+- Follow component naming convention: PascalCase for components, camelCase for hooks
+- Keep components small and focused on a single responsibility
+- Extract reusable logic into custom hooks
+- Use proper semantic HTML elements (not just divs everywhere)
+- Always add appropriate accessibility attributes (ARIA)
+
+### State Management
+
+- Use React context for global state when appropriate
+- Prefer local state for component-specific concerns
+- Avoid prop drilling - refactor when props are passed through more than 2 levels
+
+### Styling Approach
+
+- Use CSS modules or styled-components for component styling
+- Follow a consistent naming convention for CSS classes
+- Design for mobile-first, then adapt for larger screens
+- Maintain a unified color palette and spacing system
+
+### Performance Considerations
+
+- Memoize expensive calculations with useMemo
+- Optimize renders with React.memo where appropriate
+- Lazy load components that aren't immediately needed
+- Use virtualization for long lists
+
+### Code Structure
+
+- Group related files together by feature, not by type
+- Keep view logic separate from business logic
+- Place shared utilities in a dedicated folder
+- Organize imports: React/libraries, then components, then styles 
