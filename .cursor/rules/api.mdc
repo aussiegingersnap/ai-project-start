@@ -1,3 +1,12 @@
+---
+description: API design patterns and best practices
+globs: 
+alwaysApply: false
+---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## API Design Rules
 
 > *"An API is a contract between systems - clarity and consistency are non-negotiable."*

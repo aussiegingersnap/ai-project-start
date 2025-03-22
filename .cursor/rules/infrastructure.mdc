@@ -1,3 +1,12 @@
+---
+description: Infrastructure and deployment
+globs: 
+alwaysApply: false
+---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## Infrastructure Rules
 
 > *"Infrastructure is code, and code is infrastructure - treat both with equal respect."*

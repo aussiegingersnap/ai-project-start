@@ -1,8 +1,12 @@
 ---
-description: 
+description: Frontend and UI/UX guidelines
 globs: 
 alwaysApply: false
 ---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## Frontend Development Rules
 
 > *"Great UIs are invisible - users should notice the experience, not the interface."*

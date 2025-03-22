@@ -3,6 +3,10 @@ description: General rules for the AI assistant
 globs: "*"
 alwaysApply: true
 ---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## General Rules & Guidelines
 
 > *"Because even AI assistants need some ground rules for how to be helpful!"*

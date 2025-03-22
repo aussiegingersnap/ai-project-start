@@ -1,3 +1,12 @@
+---
+description: Core development principles and practices
+globs: 
+alwaysApply: false
+---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## Development Rules
 
 > *"Good code isn't just about what works, it's about what lasts."*

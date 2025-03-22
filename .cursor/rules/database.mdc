@@ -1,3 +1,12 @@
+---
+description: Database design and management
+globs: 
+alwaysApply: false
+---
+
+Copyright (c) 2025 Adelaide Group - Jason Toevs
+Licensed under Adelaide Group Limited Commercial License
+
 ## Database Rules
 
 > *"A database is only as good as the schema that defines it and the queries that use it."*
