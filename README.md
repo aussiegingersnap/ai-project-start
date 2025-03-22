@@ -15,7 +15,7 @@ This template supercharges Cursor AI with domain-specific rule files that guide 
 
 ```bash
 # Clone this template
-git clone https://github.com/yourusername/project-template.git my-project
+git clone https://github.com/aussiegingersnap/ai-project-start.git my-project
 
 # Navigate to project
 cd my-project
