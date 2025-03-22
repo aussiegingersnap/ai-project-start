@@ -1,63 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 ## Document Management Rules
 
-> *"Good document management is invisible - you only notice it when it's missing."*
+> *"The best organization is the simplest one that works."*
 
-### Folder Structure
+### Core Principles
 
-- Organize content in a consistent hierarchy: department → category → subcategory
-- Use clear, descriptive folder names (avoid abbreviations)
-- Store templates in a dedicated `/templates` folder
-- Keep active documents separate from archives
-- Use consistent folder structure across departments
-- Limit folder nesting to 3-4 levels maximum
-- Document the folder structure and naming conventions
+- Create folders only when you have content to put in them
+- Start with flat organization, add structure only when needed
+- Use clear, descriptive names that indicate content
+- Keep active documents at the root until patterns emerge
+- Move to folders when you have 3+ related documents
+- Archive old versions instead of deleting them
 
 ### File Naming
 
-- Follow consistent naming convention: [Type]_[Topic]_[YYYYMMDD]
-- Use descriptive file names that indicate content
-- Avoid special characters and spaces in file names
-- Include version numbers for documents that change frequently
-- Use sequential numbers for related document series
-- Keep file names under 50 characters when possible
-- Document naming conventions for different document types
+- Follow consistent naming: [Type]_[Topic]_[YYYYMMDD]
+- Use descriptive names that indicate content
+- Avoid special characters and spaces
+- Include version numbers for evolving documents
+- Keep names under 50 characters
+- Use hyphens for spaces: marketing-plan-2024.md
 
-### Version Control
+### Common Folders
 
-- Include version numbers in file names or metadata
-- Document changes between versions
-- Maintain a change log for important documents
-- Archive previous versions rather than overwriting
-- Use clear version numbering (v1.0, v1.1, v2.0)
-- Establish protocols for major vs. minor version changes
-- Implement approval workflows for version updates
+Create these only when you need them:
 
-### Templates & Standards
+- `docs/` - For documentation (3+ guide documents)
+- `assets/` - For media files (5+ images/videos)
+- `templates/` - For reusable formats (2+ templates)
+- `archive/` - For old versions (any outdated files)
 
-- Create and maintain templates for common document types
-- Store all templates in a central, accessible location
-- Include usage instructions within templates
-- Document style guides for different content types
-- Establish standard formatting for recurring documents
-- Create consistent header/footer designs
-- Define document metadata standards
+### Version Management
 
-### Tools & Resources
+- Start simple: v1, v2, v3 in file names
+- Move to semantic versioning (v1.0.1) only if needed
+- Keep the latest version in the working directory
+- Move older versions to archive
+- Document major changes in file headers
+- Use comments to explain significant updates
 
-- **Document Storage**: Google Drive, Dropbox, OneDrive
-- **Collaboration**: Notion, Confluence, Google Workspace
-- **Version Control**: GitHub for docs, Abstract (for design)
-- **Templates**: Canva, Adobe InDesign Templates
-- **PDF Management**: Adobe Acrobat, PDFElement
-- **Knowledge Bases**: Notion, Confluence, GitBook
-- **Content Calendars**: Airtable, Asana, Trello
+### Document Standards
 
-### Security & Access Control
+- Start with simple markdown files
+- Add formatting standards when patterns emerge
+- Create templates after writing 2+ similar documents
+- Keep templates minimal and focused
+- Include examples in templates
+- Document any required sections
 
-- Define access permissions based on roles
-- Document approval workflows for sensitive content
-- Implement consistent sharing settings
-- Create protocols for external document sharing
-- Establish guidelines for confidential information
-- Document backup procedures for critical files
-- Create protocols for secure document deletion 
+### Security Basics
+
+- Back up important files regularly
+- Use standard sharing permissions
+- Mark sensitive content clearly
+- Keep access logs for important documents
+- Remove old permissions when archiving
+
+### Best Practices
+
+- Don't create folders until you need them
+- Keep similar files together
+- Use consistent naming within categories
+- Archive regularly to reduce clutter
+- Document decisions that affect organization
+- Review and clean up monthly
