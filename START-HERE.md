@@ -8,7 +8,7 @@ This is a ready-to-use project setup that helps you:
 
 1. **Create content faster** using AI help
 2. **Keep your work consistent** across projects
-3. **Keep your files organized** automatically
+3. **Stay organized** without complexity
 4. **Use ready-made tools** for common tasks
 
 It works by giving the Cursor AI clear instructions about how you want things done.
@@ -47,23 +47,33 @@ Simply tell Cursor what you want to make:
 - "Design a customer feedback form"
 - "Write a product description"
 
-## Where to Save Your Work
+## Staying Organized
 
-Your project has simple, organized folders:
+Start simple and organize as you go. Create folders only when you need them:
 
-- **/docs/** - Store your guides and documentation
-- **/assets/** - Keep your images, videos, and other media
-- **/templates/** - Save reusable formats and outlines
-- **/reports/** - Store your generated reports and analysis
-- **/archive/** - Move completed or old work here
+**When Writing Documents:**
+- Create a `docs` folder for your guides and documentation
+- Use clear file names like "marketing-plan-2024.md"
+
+**When Working with Media:**
+- Create an `assets` folder for images and videos
+- Name files descriptively like "team-photo-june2024.jpg"
+
+**When Making Templates:**
+- Create a `templates` folder for reusable formats
+- Name templates clearly like "weekly-report-template.md"
+
+**When Keeping History:**
+- Create an `archive` folder for old versions
+- Move old files there instead of deleting them
 
 ## Tips for Success
 
 1. **Be specific** - "Create a sales email for our new product" works better than "Write an email"
 2. **Mention the type of work** - Say "This is for marketing" so the AI uses the right helpers
 3. **Give feedback** - Tell the AI what you like or don't like about its suggestions
-4. **Stay organized** - Use the right folder for each type of file
-5. **Keep it simple** - Archive old files instead of deleting them
+4. **Start simple** - Create folders only when you need them
+5. **Stay tidy** - Move old files to archive instead of letting them pile up
 
 ## Common Tasks
 
@@ -95,4 +105,4 @@ The AI can help you with:
 
 ---
 
-*Remember: You don't need any technical knowledge to use this template - the AI handles the complicated stuff for you!* 
+*Remember: Keep it simple! Only create the organization you need, when you need it. The AI will help you stay organized without making things complicated.* 

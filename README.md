@@ -9,7 +9,7 @@ This template supercharges Cursor AI with domain-specific rule files that guide 
 - Domain-specific rule files in modular `.mdc` format
 - Separate technical and business rules for cross-functional teams
 - Pre-built tools for common operations
-- Consistent file organization patterns
+- Just-in-time file organization
 
 ## Quick Setup
 
@@ -75,26 +75,34 @@ To add new tools:
 
 ## Directory Structure
 
+The project starts minimal and grows as needed:
+
 ```
 project-template/
 ├── .cursor/                # AI configuration
 │   └── rules/              # Rule definition files
-├── docs/                   # Documentation & guides
-├── assets/                 # Media, images, resources
-├── templates/              # Reusable document templates
-├── reports/                # Generated reports & analysis
-├── archive/               # Archived or completed work
 ├── README.md              # Developer documentation
 └── START-HERE.md          # Non-technical guide
 ```
 
+### Just-in-Time Folders
+
+Create these folders only when you need them:
+
+- `docs/` - When you have documentation to maintain
+- `assets/` - When you have media files to manage
+- `templates/` - When you have reusable formats
+- `archive/` - When you need to store old versions
+
+This approach keeps your project lean and organized. Create folders when you have actual content for them, not before.
+
 ## Best Practices
 
-1. **Follow patterns** - Maintain consistency with existing rules
-2. **Document changes** - Comment modifications in rule files
-3. **Test combinations** - Rules can interact in complex ways
-4. **Be specific** - Avoid ambiguity between rules
-5. **Consider all users** - Support both technical and non-technical teams
+1. **Start minimal** - Only create folders when you need them
+2. **Stay organized** - Use clear, descriptive folder names
+3. **Archive don't delete** - Move old work to archive instead of deleting
+4. **Be consistent** - Once you create a folder, stick to its purpose
+5. **Keep it flat** - Avoid deep folder nesting when possible
 
 ## For Non-developers
 
