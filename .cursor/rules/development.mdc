@@ -1,0 +1,51 @@
+## Development Rules
+
+> *"Good code isn't just about what works, it's about what lasts."*
+
+### Code Quality
+
+- Keep files under 300 lines of code; refactor when approaching this limit
+- Maintain a clean, organized codebase with consistent formatting
+- Avoid code duplication by checking for similar existing functionality
+- Write thorough tests for all major functionality
+- Follow language/framework-specific best practices
+- Prefer simple, readable solutions over clever optimizations
+- Use meaningful variable and function names that indicate purpose
+
+### Development Workflow
+
+- Kill all related running servers before starting a new one
+- Always start a new server after making changes to allow for testing
+- Make only requested changes or changes you're confident are well understood
+- Consider what other code areas might be affected by your changes
+- Don't drastically change existing patterns without explicit instruction
+- Exhaust all options using existing implementations before introducing new patterns
+- If introducing a new pattern to replace an old one, remove the old implementation
+
+### Version Control
+
+- Never leave unstaged/untracked files after committing
+- Don't create new branches unless explicitly requested
+- Never commit .env files or secrets to version control
+- Never overwrite .env files without first asking and confirming
+- Write clear, descriptive commit messages
+- Make atomic commits that address a single concern
+- Consider using feature flags for significant changes
+
+### Testing Strategy
+
+- Write tests before implementing new features when possible
+- Ensure all edge cases are covered in test suites
+- Separate unit, integration, and end-to-end tests appropriately
+- Mock external dependencies in unit tests
+- Don't mock data except for tests (never for dev or prod environments)
+- Test both successful operations and failure modes
+
+### Documentation
+
+- Document all non-obvious code with clear comments
+- Maintain up-to-date README and setup instructions
+- Document architectural decisions and design patterns
+- Keep API documentation in sync with implementation
+- Document environment variables and configuration options
+- Unless explicitly instructed, instead of trying to gracefully handle an error or failure, make sure to fix the underlying issue 

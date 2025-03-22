@@ -5,7 +5,57 @@ alwaysApply: false
 ---
 ## Frontend Development Rules
 
-> *"Because without rules, our UI would look like it was designed by a committee of cats walking on keyboards."*
+> *"Great UIs are invisible - users should notice the experience, not the interface."*
+
+### UI/UX Standards
+
+- Follow consistent design patterns throughout the application
+- Implement responsive design for all screen sizes
+- Use a design system for consistent component styling
+- Ensure proper contrast and readability for all text
+- Make interactive elements obviously interactive
+- Provide visual feedback for all user actions
+- Aim for sub-100ms response to user interactions
+
+### Component Architecture
+
+- Follow a component-based architecture (e.g., React components)
+- Keep components small and focused on a single responsibility
+- Use composition over inheritance for component design
+- Maintain a clear component hierarchy
+- Separate business logic from presentation
+- Create reusable UI components for common patterns
+- Document component props with TypeScript or PropTypes
+
+### State Management
+
+- Choose appropriate state management based on complexity
+- Keep global state minimal - prefer local state when possible
+- Use immutable data patterns
+- Implement proper loading and error states
+- Handle form state consistently across the application
+- Avoid prop drilling by using context or state management
+- Cache API responses appropriately
+
+### Performance
+
+- Implement code-splitting for large applications
+- Optimize bundle size through tree-shaking
+- Lazy-load components and resources
+- Optimize images and media assets
+- Minimize DOM manipulations
+- Avoid blocking the main thread with heavy computations
+- Implement virtual scrolling for long lists
+
+### Accessibility
+
+- Ensure keyboard navigation works for all interactive elements
+- Use semantic HTML elements
+- Include proper ARIA attributes when needed
+- Ensure screen reader compatibility
+- Meet WCAG 2.1 AA standards at minimum
+- Test with accessibility tools regularly
+- Provide text alternatives for non-text content
 
 ### Component Guidelines
 
@@ -16,25 +66,12 @@ alwaysApply: false
 - Use proper semantic HTML elements (not just divs everywhere)
 - Always add appropriate accessibility attributes (ARIA)
 
-### State Management
-
-- Use React context for global state when appropriate
-- Prefer local state for component-specific concerns
-- Avoid prop drilling - refactor when props are passed through more than 2 levels
-
 ### Styling Approach
 
 - Use CSS modules or styled-components for component styling
 - Follow a consistent naming convention for CSS classes
 - Design for mobile-first, then adapt for larger screens
 - Maintain a unified color palette and spacing system
-
-### Performance Considerations
-
-- Memoize expensive calculations with useMemo
-- Optimize renders with React.memo where appropriate
-- Lazy load components that aren't immediately needed
-- Use virtualization for long lists
 
 ### Code Structure
 

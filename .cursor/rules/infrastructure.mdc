@@ -1,0 +1,53 @@
+## Infrastructure Rules
+
+> *"Infrastructure is code, and code is infrastructure - treat both with equal respect."*
+
+### Deployment Process
+
+- Implement CI/CD pipelines for all deployments
+- Use infrastructure as code (IaC) for all resources
+- Maintain separate environments for development, staging, and production
+- Implement blue/green or canary deployments for zero downtime
+- Automate rollback procedures for failed deployments
+- Version infrastructure changes
+- Test deployment processes regularly
+
+### Environment Configuration
+
+- Use environment variables for all configuration
+- Store secrets in secure vaults, never in code
+- Implement configuration validation on startup
+- Document all configuration options
+- Use sensible defaults when possible
+- Keep environment parity between dev and production
+- Implement separate config for each environment
+
+### Scaling Strategy
+
+- Design for horizontal scaling from the beginning
+- Implement auto-scaling based on appropriate metrics
+- Use load balancers to distribute traffic
+- Optimize resource utilization
+- Implement database read replicas where appropriate
+- Consider serverless for variable workloads
+- Plan capacity based on growth projections
+
+### Monitoring & Logging
+
+- Implement comprehensive logging throughout the application
+- Use structured logging format
+- Centralize logs for easy searching and analysis
+- Set up alerts for critical errors and performance issues
+- Monitor system health metrics
+- Implement distributed tracing for complex systems
+- Create dashboards for key performance indicators
+
+### Security Practices
+
+- Follow the principle of least privilege for all resources
+- Implement network security groups and firewall rules
+- Regularly update and patch all dependencies
+- Scan infrastructure for vulnerabilities
+- Implement proper backup and disaster recovery procedures
+- Use multi-factor authentication for infrastructure access
+- Regularly rotate credentials and access keys 

@@ -1,0 +1,63 @@
+## Data & Analytics Rules
+
+> *"Data without context is just numbers; analytics without action is just reporting."*
+
+### Data Organization
+
+- Store data in structured folders: /raw_data, /processed, /reports, /visualizations
+- Maintain consistent naming conventions for all data files
+- Document data sources and collection methodologies
+- Create data dictionaries for complex datasets
+- Establish version control for datasets (v1, v2, etc.)
+- Separate raw data from processed/transformed data
+- Document all data cleaning and transformation steps
+
+### Analysis Standards
+
+- Begin with clear business questions and hypotheses
+- Document analysis methodology and assumptions
+- Use consistent statistical methods across similar analyses
+- Validate results with multiple approaches when possible
+- Document limitations and potential biases in your analysis
+- Provide confidence intervals or error margins for key findings
+- Create reusable analysis templates for recurring needs
+
+### Reporting & Visualization
+
+- Design reports with a clear audience and purpose in mind
+- Start with an executive summary of key findings
+- Use consistent visualization styles and color schemes
+- Ensure visualizations are accessible (color-blind friendly, labeled clearly)
+- Include context and benchmarks in all metrics
+- Document data sources and time periods for all charts
+- Create standardized templates for recurring reports
+
+### Tools & Resources
+
+- **Data Analysis**: Excel, Google Sheets, Airtable
+- **Visualization**: Tableau, PowerBI, Google Data Studio
+- **Surveys & Forms**: Google Forms, SurveyMonkey, Typeform
+- **Dashboards**: Databox, Geckoboard, Cyfe
+- **Customer Data**: Segment, Mixpanel, Amplitude
+- **Text Analysis**: MonkeyLearn, Lexalytics
+- **Collaboration**: Notion, Confluence, Google Workspace
+
+### Data Governance
+
+- Document data access permissions and security requirements
+- Establish data retention policies for different data types
+- Ensure compliance with relevant regulations (GDPR, CCPA, etc.)
+- Create processes for handling sensitive or personal data
+- Maintain audit trails for important data modifications
+- Document data backup procedures
+- Establish data quality monitoring processes
+
+### Insight Activation
+
+- Connect analysis findings to specific business actions
+- Create action plans based on data insights
+- Establish feedback loops to measure impact of actions
+- Document decision-making processes influenced by data
+- Create frameworks for prioritizing insights based on impact
+- Schedule regular reviews of key metrics and KPIs
+- Maintain a knowledge base of insights and resulting actions 

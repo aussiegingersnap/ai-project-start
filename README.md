@@ -1,64 +1,105 @@
-# Simple Project Template with Cursor Project Rules
+# Cursor AI Project Template
 
-> *"Because every project deserves clear instructions for AI - even if you're not a coding wizard."*
+An opinionated template that combines structured rule systems with AI assistance to produce high-quality, consistent code faster.
 
-This project template follows the Cursor Project Rules structure, providing a modern approach to guiding AI assistants in your workflow. **Designed to be simple and approachable, even for non-developers!**
+## Overview
 
-## What are Cursor Project Rules?
+This template supercharges Cursor AI with domain-specific rule files that guide AI behavior across development disciplines:
 
-Cursor Project Rules are modular `.mdc` files stored in the `.cursor/rules/` directory. This approach provides:
+- Domain-specific rule files in modular `.mdc` format
+- Separate technical and business rules for cross-functional teams
+- Pre-built tools for common operations
+- Consistent file organization patterns
 
-- **Easier AI guidance**: Tell AI exactly what you want
-- **Better AI responses**: Get more accurate help
-- **Simple management**: Update rules independently
-- **Expandable**: Add more rules as needed
+## Quick Setup
 
-## Simple Directory Structure
+```bash
+# Clone this template
+git clone https://github.com/yourusername/project-template.git my-project
 
-```
-project_template/
-├── .cursor/
-│   └── rules/
-│       ├── general.mdc       # Global project rules
-│       ├── frontend.mdc      # Frontend-specific rules
-│       ├── backend.mdc       # Backend-specific rules
-│       └── agent_instructions.mdc # Instructions for AI assistants
-├── docs/                     # Documentation
-├── config/                   # Configuration files
-└── README.md                 # This file
+# Navigate to project
+cd my-project
+
+# Optional: Initialize package
+npm init -y  # or yarn init -y
 ```
 
-## Getting Started (Super Simple)
+## Rule System Architecture
 
-1. Clone or download this repository
-2. Look at the rules in `.cursor/rules/` to understand what they do
-3. Start using Cursor AI with intelligent assistance!
+The template uses structured rule files in `.cursor/rules/`:
 
-## How to Use Cursor Project Rules
+### Development Rules
 
-### For Project Users
+- `development.mdc` - Core development principles and coding standards
+- `backend.mdc` - Server architecture, security, middleware patterns
+- `frontend.mdc` - UI components, state management, accessibility
+- `database.mdc` - Data modeling, query optimization, migrations
+- `api.mdc` - RESTful design, versioning, documentation
+- `infrastructure.mdc` - Deployment, scaling, monitoring
 
-1. Open the project in Cursor
-2. Tell the AI what you want to create
-3. Let the AI assist you following the rules
+### Business Rules
 
-### For Project Owners
+- `operations.mdc` - Project management, documentation, workflows
+- `marketing.mdc` - Content creation, campaigns, analytics
+- `data_analytics.mdc` - Reports, visualizations, insights
+- `document_management.mdc` - File organization, versioning
+- `business_tools.mdc` - CLI commands for non-technical users
 
-1. Modify rules to match your needs
-2. Add specific instructions as needed
-3. Keep rules updated as your project evolves
+## Usage
 
-## Benefits of This Approach
+### Invoking Rules
 
-- **Consistent results**: The AI follows your guidelines
-- **Faster work**: No need to repeat instructions
-- **Better AI help**: Get more relevant and accurate suggestions
-- **Reduced frustration**: Prevent AI from going off-track
+Rules activate contextually based on your query or can be explicitly invoked:
+
+```
+Using the frontend rules, create a responsive navigation component.
+```
+
+### Extending the System
+
+To customize rules:
+
+1. Edit existing `.mdc` files in `.cursor/rules/`
+2. Add new `.mdc` files for additional domains
+3. Reference new rule files in `user-rules-v2`
+
+### Business Tools
+
+For non-developers, `business_tools.mdc` contains ready-to-use CLI commands implemented in the `/tools` directory.
+
+To add new tools:
+
+1. Implement in `/tools` directory
+2. Document in `business_tools.mdc`
+3. Follow established command patterns
+
+## Directory Structure
+
+```
+project-template/
+├── .cursor/                # AI configuration
+│   └── rules/              # Rule definition files
+├── docs/                   # Documentation & guides
+├── assets/                 # Media, images, resources
+├── templates/              # Reusable document templates
+├── reports/                # Generated reports & analysis
+├── archive/               # Archived or completed work
+├── README.md              # Developer documentation
+└── START-HERE.md          # Non-technical guide
+```
+
+## Best Practices
+
+1. **Follow patterns** - Maintain consistency with existing rules
+2. **Document changes** - Comment modifications in rule files
+3. **Test combinations** - Rules can interact in complex ways
+4. **Be specific** - Avoid ambiguity between rules
+5. **Consider all users** - Support both technical and non-technical teams
+
+## For Non-developers
+
+Direct non-technical team members to `START-HERE.md` for a simplified guide.
 
 ## License
 
-This project template is available under the MIT License.
-
----
-
-*Remember: These rules are like training wheels for AI - they help it stay on track while you ride together toward your goals.* 
+[Insert your license here] 

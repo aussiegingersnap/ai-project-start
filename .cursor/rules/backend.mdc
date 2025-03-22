@@ -5,7 +5,57 @@ alwaysApply: false
 ---
 ## Backend Development Rules
 
-> *"Building backends without rules is like constructing a house with duct tape and good intentions."*
+> *"The backend is where promises made by the frontend are kept."*
+
+### Server Architecture
+
+- Follow clean architecture principles (separate concerns)
+- Implement proper dependency injection
+- Use middleware for cross-cutting concerns
+- Consider microservices for complex domains
+- Design stateless services where possible
+- Implement proper health checks
+- Document architectural decisions
+
+### Request Handling
+
+- Validate all input at the boundaries
+- Implement proper request timeout handling
+- Use appropriate content types and serialization
+- Handle file uploads securely and efficiently
+- Implement proper error boundaries
+- Log all request information for debugging
+- Use appropriate HTTP methods and status codes
+
+### Authentication & Authorization
+
+- Implement OAuth2/OpenID Connect for authentication when appropriate
+- Use JWTs for stateless authentication
+- Implement proper role-based access control
+- Check permissions at all levels (API, service, data)
+- Secure all authentication tokens and secrets
+- Implement proper session management
+- Consider 2FA for sensitive operations
+
+### Middleware Implementation
+
+- Keep middleware focused on a single responsibility
+- Order middleware properly for optimal processing
+- Implement request logging and correlation IDs
+- Use middleware for common concerns (CORS, compression, etc.)
+- Implement proper error handling in middleware
+- Document middleware behavior and execution order
+- Test middleware in isolation
+
+### Performance Optimization
+
+- Implement caching for expensive operations
+- Use connection pooling for database connections
+- Optimize database queries for performance
+- Implement background processing for long-running tasks
+- Use streaming for large data transfers
+- Implement proper garbage collection strategies
+- Profile and optimize hotspots in the code
 
 ### API Design
 

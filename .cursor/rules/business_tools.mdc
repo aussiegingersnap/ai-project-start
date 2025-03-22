@@ -1,0 +1,87 @@
+## Business Tools
+
+> *"The right tool makes the impossible simple and the complex manageable."*
+
+### Automated Reports & Dashboards
+
+- **Weekly Metrics Report**: Automated report showing key business metrics
+  - Usage: `/tools/reports generate weekly`
+  - Customization: Edit `/config/reports/weekly.json`
+
+- **Marketing Dashboard**: Real-time view of marketing performance
+  - Usage: `/tools/dashboard marketing`
+  - Customization: Edit dashboard in the web interface
+
+- **Custom Report Builder**: Generate reports from multiple data sources
+  - Usage: `/tools/reports custom --config=my_config.json`
+  - Templates in `/templates/reports/`
+
+### Content Generation & Management
+
+- **Social Media Post Generator**: Create posts from templates and content library
+  - Usage: `/tools/social create --type=[instagram|twitter|linkedin]`
+  - Content library: `/content/social/`
+
+- **Email Campaign Builder**: Create and schedule email campaigns
+  - Usage: `/tools/email campaign --template=newsletter`
+  - Templates: `/templates/email/`
+
+- **Content Calendar**: Schedule and track content creation
+  - Usage: `/tools/content calendar --month=June`
+  - Web interface: `http://localhost:3000/tools/calendar`
+
+### Data Analysis Tools
+
+- **Customer Insights Generator**: Analyze customer data for patterns
+  - Usage: `/tools/analyze customers --segment=new`
+  - Export reports to PDF, Excel, or Google Sheets
+
+- **Competitive Analysis**: Track competitor metrics and activities
+  - Usage: `/tools/competitive report --competitors="CompA,CompB"`
+  - Data source configuration: `/config/competitive.json`
+
+- **Conversion Funnel Analyzer**: Track user journey and drop-off points
+  - Usage: `/tools/funnel analyze --period=last30days`
+  - Web interface: `http://localhost:3000/tools/funnel`
+
+### Project Management
+
+- **Timeline Generator**: Create visual project timelines
+  - Usage: `/tools/timeline create --project=rebrand`
+  - Export to PNG, PDF, or embed in documents
+
+- **Resource Allocator**: Track team availability and project assignments
+  - Usage: `/tools/resources allocate --team=marketing`
+  - Web interface: `http://localhost:3000/tools/resources`
+
+- **Meeting Summarizer**: Automatically generate meeting summaries
+  - Usage: `/tools/meeting summarize --recording=path/to/recording`
+  - Templates: `/templates/meetings/`
+
+### Document Tools
+
+- **Contract Generator**: Create contracts from templates
+  - Usage: `/tools/documents contract --type=nda --client="Acme Inc"`
+  - Templates: `/templates/legal/`
+
+- **Document Converter**: Convert between document formats
+  - Usage: `/tools/documents convert input.docx output.pdf`
+  - Supports Word, PDF, HTML, Markdown formats
+
+- **Proposal Builder**: Create client proposals from templates
+  - Usage: `/tools/documents proposal --client="Acme Inc"`
+  - Templates: `/templates/proposals/`
+
+### Integrations
+
+- **CRM Connector**: Sync data with popular CRM systems
+  - Usage: `/tools/integrations crm push --source=events`
+  - Supported: Salesforce, HubSpot, Pipedrive
+
+- **Analytics Connector**: Pull data from analytics platforms
+  - Usage: `/tools/integrations analytics pull --source=ga4`
+  - Supported: Google Analytics, Mixpanel, Amplitude
+
+- **Email Integration**: Connect with email marketing platforms
+  - Usage: `/tools/integrations email sync --platform=mailchimp`
+  - Supported: Mailchimp, Klaviyo, ActiveCampaign 

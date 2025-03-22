@@ -1,0 +1,62 @@
+## Operations Rules
+
+> *"Operations excellence is about creating predictable outcomes through consistent processes."*
+
+### Project Management
+
+- Document project goals, scope, and success metrics
+- Break down projects into clear tasks with owners and deadlines
+- Use consistent templates for project briefs and plans
+- Track dependencies between tasks and teams
+- Document resource allocations and constraints
+- Create standard operating procedures for routine tasks
+- Maintain a single source of truth for project status
+
+### Documentation Standards
+
+- Store documentation in structured folders: /processes, /policies, /reports, /templates
+- Use standardized templates for recurring document types
+- Include version control for important documents (v1.0, v1.1, etc.)
+- Maintain a consistent formatting style across all documentation
+- Link related documents rather than duplicating information
+- Update documentation when processes change
+- Archive outdated documents rather than deleting them
+
+### Reporting
+
+- Define key metrics and KPIs for regular reporting
+- Create dashboards for real-time tracking of critical metrics
+- Schedule regular reporting cycles (daily, weekly, monthly)
+- Use standardized templates for recurring reports
+- Include executive summaries for all comprehensive reports
+- Document data sources and calculation methodologies
+- Compare metrics against goals and historical performance
+
+### Tools & Resources
+
+- **Project Management**: Asana, ClickUp, Notion, Trello
+- **Documentation**: Confluence, Notion, Google Workspace
+- **Process Mapping**: Lucidchart, Draw.io, Miro
+- **Reporting**: Google Data Studio, PowerBI, Metabase
+- **Communication**: Slack, Microsoft Teams, Zoom
+- **Automation**: Zapier, Make (Integromat), Airtable Automations
+
+### Process Optimization
+
+- Document current processes before optimizing
+- Map workflows visually with swimlanes and decision points
+- Identify bottlenecks and friction points in existing processes
+- Calculate time and resource costs for each process step
+- Prioritize improvements based on impact and effort
+- Test process changes before full implementation
+- Measure results after implementation
+
+### Communication Standards
+
+- Use consistent channels for different types of communication
+- Document decision-making processes and outcomes
+- Maintain a communication calendar for regular updates
+- Create templates for recurring communication needs
+- Archive important communications for future reference
+- Set clear expectations for response times
+- Establish escalation paths for urgent issues 

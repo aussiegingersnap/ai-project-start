@@ -1,0 +1,53 @@
+## Database Rules
+
+> *"A database is only as good as the schema that defines it and the queries that use it."*
+
+### Data Modeling
+
+- Follow database normalization principles to reduce redundancy
+- Use appropriate data types for columns to optimize storage
+- Define clear primary keys for all tables
+- Implement foreign key constraints to maintain referential integrity
+- Create indexes for frequently queried columns
+- Use descriptive, consistent naming conventions for tables and columns
+- Document table relationships in schema diagrams
+
+### Query Optimization
+
+- Optimize queries to minimize database load
+- Use EXPLAIN/query plans to analyze query performance
+- Avoid N+1 query problems in ORM implementations
+- Limit result sets to necessary data only
+- Use pagination for large datasets
+- Write efficient JOINs (avoid unnecessary table scans)
+- Consider denormalization only when performance benefits outweigh consistency risks
+
+### Migration Strategy
+
+- Use database migrations for all schema changes
+- Version all migrations sequentially
+- Make migrations idempotent when possible
+- Include both up and down migration paths
+- Test migrations on copies of production data before deployment
+- Document breaking changes in migrations
+- Back up data before running migrations in production
+
+### Transaction Management
+
+- Use transactions for operations affecting multiple records
+- Keep transactions as short as possible
+- Handle transaction rollbacks gracefully
+- Be aware of isolation levels and their implications
+- Avoid long-running transactions that could lock tables
+- Implement retry logic for transient failures
+- Consider distributed transaction patterns for microservices
+
+### Data Integrity & Security
+
+- Never store sensitive data in plain text
+- Implement row-level security where appropriate
+- Use parameterized queries to prevent SQL injection
+- Implement proper access control at the database level
+- Regularly backup and test database restore procedures
+- Implement monitoring for unusual query patterns
+- Use database connection pooling efficiently 

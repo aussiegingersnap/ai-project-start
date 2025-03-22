@@ -1,0 +1,53 @@
+## API Design Rules
+
+> *"An API is a contract between systems - clarity and consistency are non-negotiable."*
+
+### API Design Patterns
+
+- Follow RESTful principles for resource-oriented APIs
+- Use GraphQL for complex data requirements with multiple resources
+- Implement consistent URL patterns (e.g., `/api/v1/resources`)
+- Use appropriate HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- Return appropriate HTTP status codes for all responses
+- Design around resources, not actions
+- Keep endpoints focused on business domain concepts
+
+### Versioning Strategy
+
+- Version all APIs from the beginning (e.g., `/api/v1/`)
+- Maintain backward compatibility within a version
+- Document breaking changes between versions
+- Consider using header-based versioning for more flexibility
+- Deprecate old versions with clear timelines
+- Provide migration paths between versions
+- Test all supported versions thoroughly
+
+### Documentation Standards
+
+- Document all endpoints with OpenAPI/Swagger
+- Include example requests and responses
+- Document all query parameters and request body schemas
+- Specify required vs. optional fields
+- Include authentication requirements
+- Document rate limits and pagination
+- Keep documentation in sync with implementation
+
+### Error Handling
+
+- Return detailed error messages in development, generic ones in production
+- Use consistent error response format across all endpoints
+- Include error codes for programmatic handling
+- Provide helpful error messages for debugging
+- Log all errors with appropriate context
+- Handle validation errors consistently
+- Implement proper exception handling
+
+### Security & Performance
+
+- Implement authentication for all non-public endpoints
+- Use HTTPS for all API traffic
+- Implement proper CORS policies
+- Rate limit endpoints to prevent abuse
+- Implement request timeout policies
+- Cache responses when appropriate
+- Use pagination for endpoints returning large datasets 

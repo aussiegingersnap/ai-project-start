@@ -1,0 +1,63 @@
+## Document Management Rules
+
+> *"Good document management is invisible - you only notice it when it's missing."*
+
+### Folder Structure
+
+- Organize content in a consistent hierarchy: department → category → subcategory
+- Use clear, descriptive folder names (avoid abbreviations)
+- Store templates in a dedicated `/templates` folder
+- Keep active documents separate from archives
+- Use consistent folder structure across departments
+- Limit folder nesting to 3-4 levels maximum
+- Document the folder structure and naming conventions
+
+### File Naming
+
+- Follow consistent naming convention: [Type]_[Topic]_[YYYYMMDD]
+- Use descriptive file names that indicate content
+- Avoid special characters and spaces in file names
+- Include version numbers for documents that change frequently
+- Use sequential numbers for related document series
+- Keep file names under 50 characters when possible
+- Document naming conventions for different document types
+
+### Version Control
+
+- Include version numbers in file names or metadata
+- Document changes between versions
+- Maintain a change log for important documents
+- Archive previous versions rather than overwriting
+- Use clear version numbering (v1.0, v1.1, v2.0)
+- Establish protocols for major vs. minor version changes
+- Implement approval workflows for version updates
+
+### Templates & Standards
+
+- Create and maintain templates for common document types
+- Store all templates in a central, accessible location
+- Include usage instructions within templates
+- Document style guides for different content types
+- Establish standard formatting for recurring documents
+- Create consistent header/footer designs
+- Define document metadata standards
+
+### Tools & Resources
+
+- **Document Storage**: Google Drive, Dropbox, OneDrive
+- **Collaboration**: Notion, Confluence, Google Workspace
+- **Version Control**: GitHub for docs, Abstract (for design)
+- **Templates**: Canva, Adobe InDesign Templates
+- **PDF Management**: Adobe Acrobat, PDFElement
+- **Knowledge Bases**: Notion, Confluence, GitBook
+- **Content Calendars**: Airtable, Asana, Trello
+
+### Security & Access Control
+
+- Define access permissions based on roles
+- Document approval workflows for sensitive content
+- Implement consistent sharing settings
+- Create protocols for external document sharing
+- Establish guidelines for confidential information
+- Document backup procedures for critical files
+- Create protocols for secure document deletion 
