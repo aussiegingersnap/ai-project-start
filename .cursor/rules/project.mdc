@@ -1,0 +1,71 @@
+---
+alwaysApply: true
+---
+
+# [Project Name]
+
+NEVER EDIT MY ENV FILES FOR ME, ALWAYS GIVE ME DIRECT INSTRUCTIONS WITH EXAMPLES TO COPY ON WHAT TO EDIT
+
+## What We're Building
+
+[One-line description of the project]
+
+## Tech Stack
+
+- **Frontend**: [e.g., Next.js 14 App Router, TypeScript, Tailwind, shadcn/ui]
+- **Database**: [e.g., Supabase (PostgreSQL + RLS)]
+- **AI**: [e.g., OpenRouter, Claude, GPT-4]
+- **Deploy**: [e.g., Railway, Vercel, AWS]
+- **Skills**: MCP-based agent skills
+
+## Core Constraints
+
+- **KISS**: Simplest solution that works
+- **DRY**: Don't repeat—types in code, schema in migrations, patterns in docs
+- **[Add project-specific constraints]**
+
+## Documentation
+
+| Doc | Purpose |
+|-----|---------|
+| [TASKS.md](../TASKS.md) | Current sprint + backlog |
+| [CHANGELOG.md](../CHANGELOG.md) | Progress updates |
+| [docs/architecture.md](../docs/architecture.md) | Technical patterns + decisions |
+
+## Git Standards
+
+**Conventional Commits**: `<type>(<scope>): <subject>`
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `build`, `revert`
+
+```bash
+feat: add user authentication
+fix(api): handle null response
+docs: update architecture patterns
+```
+
+**Security**:
+- ❌ Never commit `.env` files or secrets
+- ✅ Secrets in `.env.local` (gitignored)
+- ✅ `NEXT_PUBLIC_` prefix for client-safe vars
+
+## Environment
+
+See `.env.example` for required variables.
+
+## Workflow
+
+When a Cursor plan is complete, provide a summary block for manual git commits:
+
+```
+### Done
+
+**Summary**: [Brief description of changes]
+
+**Commits** (ohmyzsh):
+gaa && gcmsg "feat(scope): description"
+gcmsg "fix(scope): description"
+gp
+```
+
+User will copy/paste these commands. Lefthook validates commit format and blocks secrets.

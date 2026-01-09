@@ -1,0 +1,73 @@
+# Lefthook - Git hooks manager
+# Install: npm install -D lefthook && npx lefthook install
+
+commit-msg:
+  commands:
+    conventional-commit:
+      run: |
+        msg=$(cat "{1}")
+        if ! echo "$msg" | grep -qE "^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\(.+\))?: .+"; then
+          echo ""
+          echo "❌ Invalid commit message format"
+          echo ""
+          echo "Expected: <type>(<scope>): <subject>"
+          echo "Example:  feat(api): add user endpoint"
+          echo ""
+          echo "Types: feat, fix, docs, style, refactor, perf, test, chore, ci, build, revert"
+          echo ""
+          exit 1
+        fi
+
+pre-commit:
+  parallel: true
+  commands:
+    secrets-check:
+      run: |
+        # Check for common secret patterns in staged files
+        patterns="(sk-[a-zA-Z0-9]{20,}|SUPABASE_SERVICE_ROLE_KEY=|api[_-]?key['\"]?\s*[:=]\s*['\"][^'\"]+|secret['\"]?\s*[:=]\s*['\"][^'\"]+)"
+        if git diff --cached --name-only | xargs grep -lE "$patterns" 2>/dev/null | grep -v ".example" | grep -v "lefthook.yml"; then
+          echo ""
+          echo "❌ Potential secret detected in staged files!"
+          echo ""
+          echo "Check these patterns: API keys, secrets, tokens"
+          echo "Use .env.local for secrets (gitignored)"
+          echo ""
+          exit 1
+        fi
+    
+    no-env-files:
+      run: |
+        if git diff --cached --name-only | grep -E "^\.env$|^\.env\.local$|^\.env\.production$"; then
+          echo ""
+          echo "❌ Cannot commit .env files!"
+          echo ""
+          echo "Only .env.example should be committed"
+          echo ""
+          exit 1
+        fi
+
+    lint:
+      glob: "*.{js,jsx,ts,tsx}"
+      run: npx eslint {staged_files} --fix --max-warnings=0
+      skip: true  # Enable after project setup
+
+    format:
+      glob: "*.{js,jsx,ts,tsx,json,md,yml,yaml}"
+      run: npx prettier --write {staged_files} && git add {staged_files}
+      skip: true  # Enable after project setup
+
+    typecheck:
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+      skip: true  # Enable after project setup
+
+pre-push:
+  commands:
+    no-secrets-in-history:
+      run: |
+        if git log origin/main..HEAD --diff-filter=A --name-only --pretty="" 2>/dev/null | grep -E "^\.env$|^\.env\.local$"; then
+          echo ""
+          echo "❌ .env files detected in commit history!"
+          echo ""
+          exit 1
+        fi
