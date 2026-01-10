@@ -13,8 +13,15 @@ cd my-project
 mise install
 
 # Update project.mdc with your project details
-# Then start building!
 ```
+
+**Import skills you need:**
+```
+Browse available skills from trusted sources
+Import design-principles and skill-creator
+```
+
+This template starts minimal - no skills baked in. Import what you need from trusted sources.
 
 ## What's Included
 
