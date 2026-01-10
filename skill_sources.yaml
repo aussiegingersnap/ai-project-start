@@ -1,0 +1,25 @@
+# Trusted Skill Sources
+# 
+# Define GitHub repositories containing skills that can be browsed and imported.
+# Use `browse_skills()` to see available skills from these sources.
+# Use `import_skills(["skill-name"])` to import specific skills.
+
+sources:
+  cursor-skills:
+    url: https://github.com/aussiegingersnap/cursor-skills
+    description: "Jason's curated skills collection"
+    author: aussiegingersnap
+    path: skills  # subdirectory containing skills
+    
+  anthropic-skills:
+    url: https://github.com/anthropics/skills
+    description: "Official Anthropic skills from Claude team"
+    author: anthropic
+    path: ""  # skills at repo root
+
+  # Add more trusted sources as needed:
+  # my-org-skills:
+  #   url: https://github.com/my-org/cursor-skills
+  #   description: "Team-specific skills"
+  #   author: my-org
+  #   path: skills

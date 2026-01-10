@@ -6,26 +6,69 @@ Skills MCP Server - provides access to specialized skills for AI coding agents.
 This server enables AI coding agents (like Cursor) to discover and invoke
 specialized skills from the skills directory, following the skills pattern
 pioneered by Claude Code.
+
+Enhanced with trusted source browsing and selective skill imports.
 """
 # /// script
-# dependencies = ["fastmcp"]
+# dependencies = ["fastmcp", "pyyaml"]
 # ///
 
 import os
 import re
 import urllib.request
 import json
+import shutil
 from pathlib import Path
 from fastmcp import FastMCP
 
 # Create the MCP server
 mcp = FastMCP(
     name="cursor-skills",
-    instructions="A skills server that provides access to specialised, reusable capabilities through list_skills and invoke_skill tools."
+    instructions="A skills server that provides access to specialised, reusable capabilities through list_skills, invoke_skill, browse_skills, and import_skills tools."
 )
 
 # Get project root (parent of mcp directory)
 project_root = Path(__file__).parent.parent
+
+
+def _load_skill_sources() -> dict:
+    """Load skill sources from config file.
+    
+    Returns:
+        Dictionary of source configurations
+    """
+    config_path = project_root / "skill_sources.yaml"
+    
+    if not config_path.exists():
+        return {}
+    
+    try:
+        # Simple YAML parser for our specific format
+        content = config_path.read_text(encoding='utf-8')
+        sources = {}
+        current_source = None
+        
+        for line in content.split('\n'):
+            # Skip comments and empty lines
+            if line.strip().startswith('#') or not line.strip():
+                continue
+            
+            # Check for source name (ends with :, not indented under sources:)
+            if line.startswith('  ') and not line.startswith('    ') and line.strip().endswith(':'):
+                if 'sources:' not in line:
+                    current_source = line.strip().rstrip(':')
+                    sources[current_source] = {}
+            elif line.startswith('    ') and current_source and ':' in line:
+                # Parse key: value under a source
+                key, value = line.strip().split(':', 1)
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+                sources[current_source][key] = value
+        
+        return sources
+    except Exception as e:
+        return {}
+
 
 def _discover_skills(base_dir: Path, prefix: str = "") -> list:
     """Recursively discover skills in directory tree.
@@ -156,11 +199,6 @@ def _parse_github_url(url: str) -> dict:
         Dictionary with owner, repo, branch, and path
     """
     # Handle both https and git URLs
-    # Examples:
-    # https://github.com/user/repo
-    # https://github.com/user/repo/tree/main/path/to/dir
-    # https://github.com/user/repo/tree/branch-name/path
-    
     pattern = r'github\.com/([^/]+)/([^/]+)(?:/tree/([^/]+)/(.+))?'
     match = re.search(pattern, url)
     
@@ -181,6 +219,62 @@ def _parse_github_url(url: str) -> dict:
     }
 
 
+def _fetch_github_directory_contents(owner: str, repo: str, path: str, branch: str) -> list:
+    """Fetch directory contents from GitHub API without downloading.
+    
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        path: Path within repository
+        branch: Branch name
+        
+    Returns:
+        List of directory items or empty list on error
+    """
+    try:
+        api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}"
+        
+        req = urllib.request.Request(api_url)
+        req.add_header('Accept', 'application/vnd.github.v3+json')
+        req.add_header('User-Agent', 'cursor-skills-mcp')
+        
+        with urllib.request.urlopen(req, timeout=10) as response:
+            contents = json.loads(response.read().decode())
+        
+        if isinstance(contents, list):
+            return contents
+        return []
+    except Exception:
+        return []
+
+
+def _fetch_skill_frontmatter(owner: str, repo: str, skill_path: str, branch: str) -> dict:
+    """Fetch just the SKILL.md frontmatter from GitHub.
+    
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        skill_path: Path to skill directory
+        branch: Branch name
+        
+    Returns:
+        Dictionary with name and description, or empty dict on error
+    """
+    try:
+        skill_md_path = f"{skill_path}/SKILL.md" if skill_path else "SKILL.md"
+        raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{skill_md_path}"
+        
+        req = urllib.request.Request(raw_url)
+        req.add_header('User-Agent', 'cursor-skills-mcp')
+        
+        with urllib.request.urlopen(req, timeout=10) as response:
+            content = response.read().decode('utf-8')
+        
+        return _extract_frontmatter(content)
+    except Exception:
+        return {}
+
+
 def _download_github_directory(owner: str, repo: str, path: str, branch: str, dest: Path) -> tuple[bool, str]:
     """Download a directory from GitHub using the API.
     
@@ -195,13 +289,13 @@ def _download_github_directory(owner: str, repo: str, path: str, branch: str, de
         Tuple of (success, message)
     """
     try:
-        # GitHub API endpoint for directory contents
         api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}"
         
         req = urllib.request.Request(api_url)
         req.add_header('Accept', 'application/vnd.github.v3+json')
+        req.add_header('User-Agent', 'cursor-skills-mcp')
         
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, timeout=30) as response:
             contents = json.loads(response.read().decode())
         
         if not isinstance(contents, list):
@@ -217,15 +311,13 @@ def _download_github_directory(owner: str, repo: str, path: str, branch: str, de
             item_type = item['type']
             
             if item_type == 'file':
-                # Download file
                 download_url = item['download_url']
                 file_dest = dest / item_name
                 
-                with urllib.request.urlopen(download_url) as response:
+                with urllib.request.urlopen(download_url, timeout=30) as response:
                     file_dest.write_bytes(response.read())
                     
             elif item_type == 'dir':
-                # Recursively download subdirectory
                 subdir_dest = dest / item_name
                 success, msg = _download_github_directory(owner, repo, item_path, branch, subdir_dest)
                 if not success:
@@ -241,141 +333,171 @@ def _download_github_directory(owner: str, repo: str, path: str, branch: str, de
         return False, f"Error downloading: {str(e)}"
 
 
-def _is_skill_directory(path: Path) -> bool:
-    """Check if a directory contains a SKILL.md file.
+def _browse_skills_impl(source_name: str = None) -> str:
+    """Browse available skills from trusted sources.
     
     Args:
-        path: Path to check
+        source_name: Optional specific source to browse
         
     Returns:
-        True if directory contains SKILL.md
+        Formatted list of available skills with author attribution
     """
-    return (path / "SKILL.md").exists()
-
-
-def _contains_multiple_skills(path: Path) -> list[str]:
-    """Check if a directory contains multiple skill subdirectories.
+    sources = _load_skill_sources()
     
-    Args:
-        path: Path to check
+    if not sources:
+        return "No skill sources configured. Create a skill_sources.yaml file with trusted repositories."
+    
+    if source_name and source_name not in sources:
+        available = ', '.join(sources.keys())
+        return f"Source '{source_name}' not found. Available sources: {available}"
+    
+    # Filter to specific source if requested
+    sources_to_browse = {source_name: sources[source_name]} if source_name else sources
+    
+    results = []
+    
+    for name, config in sources_to_browse.items():
+        url = config.get('url', '')
+        author = config.get('author', 'unknown')
+        description = config.get('description', '')
+        path = config.get('path', '')
         
-    Returns:
-        List of skill subdirectory names, empty if none found
-    """
-    skills = []
-    
-    if not path.exists() or not path.is_dir():
-        return skills
-    
-    for item in path.iterdir():
-        if item.is_dir() and not item.name.startswith('.'):
-            if _is_skill_directory(item):
-                skills.append(item.name)
-    
-    return skills
-
-
-def _import_skill_impl(github_url: str) -> str:
-    """Internal implementation for importing a skill from GitHub.
-    
-    Args:
-        github_url: GitHub URL to a skill directory or repository
+        parsed = _parse_github_url(url)
+        if not parsed:
+            results.append(f"\n## {name} (by {author})\n⚠️ Invalid URL configuration")
+            continue
         
-    Returns:
-        Status message
-    """
-    # Parse GitHub URL
-    parsed = _parse_github_url(github_url)
-    if not parsed:
-        return f"Invalid GitHub URL format. Expected format: https://github.com/owner/repo or https://github.com/owner/repo/tree/branch/path"
-    
-    owner = parsed['owner']
-    repo = parsed['repo']
-    branch = parsed['branch']
-    path = parsed['path']
-    
-    # Determine skill name from the last part of the path or repo name
-    if path:
-        dir_name = path.split('/')[-1]
-    else:
-        dir_name = repo
-    
-    # Download to temporary location first to check if it contains multiple skills
-    skills_dir = project_root / "skills"
-    temp_path = skills_dir / f"_temp_{dir_name}"
-    
-    # Download the directory
-    success, message = _download_github_directory(owner, repo, path, branch, temp_path)
-    
-    if not success:
-        # Clean up partial download
-        if temp_path.exists():
-            import shutil
-            shutil.rmtree(temp_path)
-        return f"Failed to import skill: {message}"
-    
-    # Check if this is a single skill or a directory containing multiple skills
-    is_single_skill = _is_skill_directory(temp_path)
-    contained_skills = _contains_multiple_skills(temp_path)
-    
-    if is_single_skill:
-        # Single skill - move to final location
-        final_path = skills_dir / dir_name
+        owner = parsed['owner']
+        repo = parsed['repo']
+        branch = parsed['branch']
+        skills_path = path or parsed['path']
         
-        if final_path.exists():
-            import shutil
-            shutil.rmtree(temp_path)
-            return f"Skill '{dir_name}' already exists at {final_path}. Remove it first if you want to re-import."
+        # Fetch directory contents
+        contents = _fetch_github_directory_contents(owner, repo, skills_path, branch)
         
-        temp_path.rename(final_path)
-        return f"Successfully imported skill '{dir_name}' to {final_path}"
-    
-    elif contained_skills:
-        # Multiple skills - import each one
-        imported = []
-        skipped = []
-        failed = []
+        if not contents:
+            results.append(f"\n## {name} (by {author})\n⚠️ Could not fetch skills from {url}")
+            continue
         
-        for skill_name in contained_skills:
-            source = temp_path / skill_name
-            dest = skills_dir / skill_name
-            
-            if dest.exists():
-                skipped.append(skill_name)
+        # Find skill directories (those containing SKILL.md)
+        skill_entries = []
+        for item in contents:
+            if item['type'] != 'dir' or item['name'].startswith('.'):
                 continue
             
-            try:
-                import shutil
-                shutil.move(str(source), str(dest))
-                imported.append(skill_name)
-            except Exception as e:
-                failed.append(f"{skill_name} ({str(e)})")
+            skill_dir_path = f"{skills_path}/{item['name']}" if skills_path else item['name']
+            frontmatter = _fetch_skill_frontmatter(owner, repo, skill_dir_path, branch)
+            
+            if frontmatter or True:  # Include even if no frontmatter found
+                skill_desc = frontmatter.get('description', 'No description available')
+                skill_entries.append(f"  - **{item['name']}**: {skill_desc}")
         
-        # Clean up temp directory
-        import shutil
-        shutil.rmtree(temp_path)
-        
-        # Build result message
-        result_parts = []
-        if imported:
-            result_parts.append(f"Successfully imported {len(imported)} skill(s): {', '.join(imported)}")
-        if skipped:
-            result_parts.append(f"Skipped {len(skipped)} existing skill(s): {', '.join(skipped)}")
-        if failed:
-            result_parts.append(f"Failed to import {len(failed)} skill(s): {', '.join(failed)}")
-        
-        return "\n".join(result_parts) if result_parts else "No skills were imported."
+        if skill_entries:
+            header = f"\n## {name} (by @{author})"
+            if description:
+                header += f"\n_{description}_"
+            results.append(header + "\n" + "\n".join(skill_entries))
+        else:
+            results.append(f"\n## {name} (by @{author})\n_No skills found in this source_")
     
-    else:
-        # Not a skill and doesn't contain skills
-        import shutil
-        shutil.rmtree(temp_path)
-        return f"Downloaded directory does not contain SKILL.md and does not contain any skill subdirectories. This may not be a valid skill or skills directory. Directory has been removed."
+    if not results:
+        return "No skills found in any configured sources."
+    
+    return "# Available Skills from Trusted Sources\n" + "\n".join(results)
 
+
+def _import_skills_impl(skill_names: list, source_name: str = None) -> str:
+    """Import specific skills from trusted sources.
+    
+    Args:
+        skill_names: List of skill names to import
+        source_name: Optional source to import from (searches all if not specified)
+        
+    Returns:
+        Status message with results
+    """
+    sources = _load_skill_sources()
+    
+    if not sources:
+        return "No skill sources configured. Create a skill_sources.yaml file with trusted repositories."
+    
+    if source_name and source_name not in sources:
+        available = ', '.join(sources.keys())
+        return f"Source '{source_name}' not found. Available sources: {available}"
+    
+    sources_to_search = {source_name: sources[source_name]} if source_name else sources
+    skills_dir = project_root / "skills"
+    skills_dir.mkdir(exist_ok=True)
+    
+    imported = []
+    skipped = []
+    not_found = []
+    failed = []
+    
+    for skill_name in skill_names:
+        # Check if already exists locally
+        if (skills_dir / skill_name).exists():
+            skipped.append(f"{skill_name} (already exists)")
+            continue
+        
+        # Search for skill in sources
+        found = False
+        for src_name, config in sources_to_search.items():
+            url = config.get('url', '')
+            path = config.get('path', '')
+            author = config.get('author', 'unknown')
+            
+            parsed = _parse_github_url(url)
+            if not parsed:
+                continue
+            
+            owner = parsed['owner']
+            repo = parsed['repo']
+            branch = parsed['branch']
+            skills_path = path or parsed['path']
+            
+            # Try to download the skill
+            skill_path = f"{skills_path}/{skill_name}" if skills_path else skill_name
+            dest = skills_dir / skill_name
+            
+            success, message = _download_github_directory(owner, repo, skill_path, branch, dest)
+            
+            if success:
+                # Verify it's actually a skill
+                if (dest / "SKILL.md").exists():
+                    imported.append(f"{skill_name} (from @{author})")
+                    found = True
+                    break
+                else:
+                    # Not a valid skill, remove it
+                    shutil.rmtree(dest)
+            elif dest.exists():
+                shutil.rmtree(dest)
+        
+        if not found and skill_name not in [s.split(' ')[0] for s in skipped]:
+            not_found.append(skill_name)
+    
+    # Build result message
+    result_parts = []
+    if imported:
+        result_parts.append(f"✅ Imported {len(imported)} skill(s):\n   " + "\n   ".join(imported))
+    if skipped:
+        result_parts.append(f"⏭️ Skipped {len(skipped)} skill(s):\n   " + "\n   ".join(skipped))
+    if not_found:
+        result_parts.append(f"❌ Not found in any source:\n   " + "\n   ".join(not_found))
+    if failed:
+        result_parts.append(f"⚠️ Failed to import:\n   " + "\n   ".join(failed))
+    
+    return "\n\n".join(result_parts) if result_parts else "No skills were imported."
+
+
+# =============================================================================
+# MCP Tools
+# =============================================================================
 
 @mcp.tool()
 def list_skills() -> str:
-    """List all available skills in the skills directory.
+    """List all available skills in the local skills directory.
     
     Returns:
         str: Formatted list of available skills with descriptions in <skill> tags
@@ -397,9 +519,61 @@ def invoke_skill(skill_name: str) -> str:
 
 
 @mcp.tool()
+def list_skill_sources() -> str:
+    """List configured trusted skill sources.
+    
+    Returns:
+        str: Formatted list of trusted sources with URLs and descriptions
+    """
+    sources = _load_skill_sources()
+    
+    if not sources:
+        return "No skill sources configured. Create a skill_sources.yaml file with trusted repositories."
+    
+    result = ["# Trusted Skill Sources\n"]
+    for name, config in sources.items():
+        author = config.get('author', 'unknown')
+        url = config.get('url', 'No URL')
+        description = config.get('description', 'No description')
+        result.append(f"## {name} (by @{author})")
+        result.append(f"_{description}_")
+        result.append(f"URL: {url}\n")
+    
+    return "\n".join(result)
+
+
+@mcp.tool()
+def browse_skills(source_name: str = None) -> str:
+    """Browse available skills from trusted sources without importing them.
+    Shows skill names, descriptions, and which author/source they come from.
+    
+    Args:
+        source_name: Optional - browse only this source. If not provided, browses all sources.
+        
+    Returns:
+        str: Formatted list of available skills organized by source with author attribution
+    """
+    return _browse_skills_impl(source_name)
+
+
+@mcp.tool()
+def import_skills(skill_names: list, source_name: str = None) -> str:
+    """Import specific skills from trusted sources into the local skills directory.
+    
+    Args:
+        skill_names: List of skill names to import (e.g., ["design-principles", "skill-creator"])
+        source_name: Optional - import only from this source. If not provided, searches all sources.
+        
+    Returns:
+        str: Status message showing imported, skipped, and failed skills
+    """
+    return _import_skills_impl(skill_names, source_name)
+
+
+@mcp.tool()
 def import_skill(github_url: str) -> str:
-    """Import a skill from a GitHub repository URL.
-    Supports both single skills and directories containing multiple skills.
+    """Import a skill directly from any GitHub repository URL.
+    For trusted sources, prefer using import_skills() instead.
     
     Args:
         github_url: GitHub URL to a skill directory or repository.
@@ -407,7 +581,83 @@ def import_skill(github_url: str) -> str:
     Returns:
         str: Success message with imported skill name and location, or error details
     """
-    return _import_skill_impl(github_url)
+    # Parse GitHub URL
+    parsed = _parse_github_url(github_url)
+    if not parsed:
+        return f"Invalid GitHub URL format. Expected: https://github.com/owner/repo or https://github.com/owner/repo/tree/branch/path"
+    
+    owner = parsed['owner']
+    repo = parsed['repo']
+    branch = parsed['branch']
+    path = parsed['path']
+    
+    # Determine skill name from the last part of the path or repo name
+    if path:
+        dir_name = path.split('/')[-1]
+    else:
+        dir_name = repo
+    
+    skills_dir = project_root / "skills"
+    skills_dir.mkdir(exist_ok=True)
+    temp_path = skills_dir / f"_temp_{dir_name}"
+    
+    # Download the directory
+    success, message = _download_github_directory(owner, repo, path, branch, temp_path)
+    
+    if not success:
+        if temp_path.exists():
+            shutil.rmtree(temp_path)
+        return f"Failed to import skill: {message}"
+    
+    # Check if this is a single skill or contains multiple skills
+    is_single_skill = (temp_path / "SKILL.md").exists()
+    
+    if is_single_skill:
+        final_path = skills_dir / dir_name
+        
+        if final_path.exists():
+            shutil.rmtree(temp_path)
+            return f"Skill '{dir_name}' already exists at {final_path}. Remove it first if you want to re-import."
+        
+        temp_path.rename(final_path)
+        return f"✅ Successfully imported skill '{dir_name}' from @{owner}"
+    
+    # Check for multiple skills
+    contained_skills = []
+    for item in temp_path.iterdir():
+        if item.is_dir() and not item.name.startswith('.') and (item / "SKILL.md").exists():
+            contained_skills.append(item.name)
+    
+    if contained_skills:
+        imported = []
+        skipped = []
+        
+        for skill_name in contained_skills:
+            source = temp_path / skill_name
+            dest = skills_dir / skill_name
+            
+            if dest.exists():
+                skipped.append(skill_name)
+                continue
+            
+            try:
+                shutil.move(str(source), str(dest))
+                imported.append(skill_name)
+            except Exception as e:
+                pass
+        
+        shutil.rmtree(temp_path)
+        
+        result_parts = []
+        if imported:
+            result_parts.append(f"✅ Imported {len(imported)} skill(s) from @{owner}: {', '.join(imported)}")
+        if skipped:
+            result_parts.append(f"⏭️ Skipped {len(skipped)} existing skill(s): {', '.join(skipped)}")
+        
+        return "\n".join(result_parts) if result_parts else "No skills were imported."
+    
+    shutil.rmtree(temp_path)
+    return f"Downloaded directory does not contain SKILL.md and has no skill subdirectories."
 
 
 @mcp.tool()
@@ -418,11 +668,11 @@ def find_skill() -> str:
         str: Content of the skills directory README with descriptions and URLs
     """
     try:
-        # URL to the raw README.md file
         url = "https://raw.githubusercontent.com/chrisboden/find-skills/main/README.md"
         
         req = urllib.request.Request(url)
-        with urllib.request.urlopen(req) as response:
+        req.add_header('User-Agent', 'cursor-skills-mcp')
+        with urllib.request.urlopen(req, timeout=10) as response:
             content = response.read().decode('utf-8')
         
         return content
