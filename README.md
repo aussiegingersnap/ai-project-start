@@ -50,7 +50,7 @@ This template starts minimal - no skills baked in. Import what you need from tru
 ```
 project/
 ├── .cursor/
-│   ├── mcp.json           # Skills server config
+│   ├── mcp_example.json   # Copy to mcp.json, update paths
 │   └── rules/
 │       ├── main_rule.mdc  # Orchestrator roles
 │       └── project.mdc    # Project constraints (EDIT THIS)
@@ -72,9 +72,23 @@ project/
 
 ## Setup Cursor MCP
 
-1. Open `.cursor/mcp.json`
-2. Update the path to your project's `mcp/skills_mcp.py`
-3. In Cursor: Settings → Tools and MCP → Verify "cursor-skills" shows 7 tools
+1. Copy `.cursor/mcp_example.json` to `.cursor/mcp.json`
+2. Update the path in `mcp.json` to point to your project's `mcp/skills_mcp.py`:
+   ```json
+   {
+     "mcpServers": {
+       "cursor-skills": {
+         "command": "uv",
+         "type": "stdio",
+         "args": ["run", "/absolute/path/to/your-project/mcp/skills_mcp.py"]
+       }
+     }
+   }
+   ```
+3. Reload Cursor (Cmd+Shift+P → "Developer: Reload Window")
+4. In Cursor: Settings → Tools and MCP → Verify "cursor-skills" shows 7 tools
+
+**Note:** Uses `uv run` to automatically handle inline script dependencies - no pip install needed.
 
 ## Importing Skills
 
