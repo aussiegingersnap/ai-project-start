@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "cursor-skills-project-start": {
+    "cursor-skills-ai-project-start": {
       "command": "uv",
       "type": "stdio",
-      "args": ["run", "REPLACE_WITH_ABSOLUTE_PATH/mcp/skills_mcp.py"]
+      "args": ["run", "/Users/jasontoevs/Desktop/Code/ai-project-start/mcp/skills_mcp.py"]
     }
   }
 }
