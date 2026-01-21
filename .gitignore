@@ -64,6 +64,9 @@ skills/*/output/
 # Supabase
 supabase/.temp/
 
+# Temp files (sample data, scratch work)
+temp/
+
 # Misc
 *.log
 *.local
