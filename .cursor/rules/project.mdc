@@ -16,7 +16,7 @@ NEVER EDIT MY ENV FILES FOR ME, ALWAYS GIVE ME DIRECT INSTRUCTIONS WITH EXAMPLES
 - **Database**: [e.g., Supabase (PostgreSQL + RLS)]
 - **AI**: [e.g., OpenRouter, Claude, GPT-4]
 - **Deploy**: [e.g., Railway, Vercel, AWS]
-- **Skills**: MCP-based agent skills
+- **Skills**: Cursor native skills
 
 ## Core Constraints
 
